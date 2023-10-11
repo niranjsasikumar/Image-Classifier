@@ -1,14 +1,14 @@
-import torchvision.models as models
-import torch.nn as nn
+from torchvision import models
+from torch import nn
 
-def get_model(num_labels):
+def get_model(num_labels: int) -> models.DenseNet:
     """Returns a configured DenseNet model.
 
     Returns a DenseNet model that has its parameters frozen and its classifier
     set to a custom classifier composed of linear layers and ReLU activations.
 
     Args:
-        num_labels: The number of labels in the classification task.
+        num_labels: Number of labels in the classification task.
     """
     if num_labels > 512:
         raise ValueError("num_labels must be less than or equal to 512")
