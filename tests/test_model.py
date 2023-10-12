@@ -1,5 +1,10 @@
+import copy
+
 import pytest
+import torch
+
 from animalclassifier import model
+from animalclassifier.dataloader import get_data_loader
 
 class TestModel:
     class TestGetModel:
@@ -16,3 +21,17 @@ class TestModel:
             with pytest.raises(ValueError) as exception_info:
                 test_model = model.get_model(num_labels)
             assert "less than or equal to" in str(exception_info.value)
+    
+    class TestTrainModel:
+        def test_valid_arguments(self):
+            initial_model = model.get_model(2)
+            trained_model = copy.deepcopy(initial_model)
+            data_loader = get_data_loader("./test_data/train", 10)
+            epochs = 1
+            model.train_model(trained_model, data_loader, epochs)
+            
+            for initial_parameter, trained_parameter in zip(
+                initial_model.classifier.parameters(),
+                trained_model.classifier.parameters()
+            ):
+                assert not torch.equal(initial_parameter, trained_parameter)

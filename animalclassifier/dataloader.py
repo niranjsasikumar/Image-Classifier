@@ -1,13 +1,8 @@
-from torchvision.transforms import Compose
 from torch.utils.data import DataLoader
+from torchvision import transforms
 from torchvision.datasets import ImageFolder
 
-def get_data_loader(
-    data_dir: str,
-    transformations: Compose,
-    batch_size: int,
-    shuffle: bool = True
-) -> DataLoader:
+def get_data_loader(data_dir: str, batch_size: int) -> DataLoader:
     """Loads and preprocesses a dataset.
 
     Loads an image dataset and applies transformations to the images. Creates a
@@ -15,14 +10,20 @@ def get_data_loader(
 
     Args:
         data_dir: Directory where the dataset is located.
-        transformations: Transformations to apply to the images in the dataset.
         batch_size: Number of samples to load per batch.
-        shuffle: Whether the data samples should be reshuffled in each epoch.
     
     Returns:
         A data loader for the specified dataset that can be iterated through
         during training.
     """
+    transformations = transforms.Compose([
+        transforms.Resize(255),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+        )
+    ])
     dataset = ImageFolder(data_dir, transform=transformations)
-    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     return data_loader
