@@ -18,6 +18,9 @@ def process_image(image_file: Any) -> Tensor:
         A Tensor that can be used with the model for predictions.
     """
     image = Image.open(image_file)
+    if image.mode == "RGBA":
+        image = image.convert("RGB")
+    
     width, height = image.size
 
     if width < height:
