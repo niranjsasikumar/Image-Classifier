@@ -62,3 +62,26 @@ def train_model(
             loss = criterion(output, labels)
             loss.backward()
             optimizer.step()
+
+def predict(model: models.DenseNet, image: torch.Tensor) -> tuple[int, float]:
+    """Predicts the class and associated probability for an image.
+
+    Performs a forward pass through a model using an input image, computes class
+    probabilities, and returns the predicted class index and its associated
+    probability.
+
+    Args:
+        model: DenseNet model to use for prediction.
+        image: Image to classify, passed as input to the model.
+    
+    Returns:
+        A tuple (class_index, probability) where class_index is the index of the
+        predicted class and probability is the associated probability.
+    """
+    model.eval()
+    output = model.forward(image)
+    output = torch.exp(output)
+    probabilities, classes = output.topk(1, dim=1)
+    probability = probabilities.item()
+    class_index = classes.item()
+    return (class_index, probability)

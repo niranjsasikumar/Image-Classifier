@@ -7,7 +7,7 @@ from animalclassifier.image import process_image
 
 class TestProcessImage:
     def test_local_image_path(self):
-        image_path = "./test_data/train/bear/1.jpg"
+        image_path = "test_data/train/bear/1.jpg"
         image = process_image(image_path)
         assert type(image) is Tensor
     

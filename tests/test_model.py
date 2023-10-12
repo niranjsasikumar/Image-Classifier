@@ -26,7 +26,7 @@ class TestModel:
         def test_valid_arguments(self):
             initial_model = model.get_model(2)
             trained_model = copy.deepcopy(initial_model)
-            data_loader = get_data_loader("./test_data/train", 10)
+            data_loader = get_data_loader("test_data/train", 10)
             epochs = 1
             model.train_model(trained_model, data_loader, epochs)
             
@@ -35,3 +35,11 @@ class TestModel:
                 trained_model.classifier.parameters()
             ):
                 assert not torch.equal(initial_parameter, trained_parameter)
+    
+    class TestPredict:
+        def test_valid_arguments(self):
+            test_model = torch.load("test_data/saved_objects/test_model.pth")
+            image = torch.load("test_data/saved_objects/test_tensor.pth")
+            animal, probability = model.predict(test_model, image)
+            assert animal == 0
+            assert probability > 0.5
