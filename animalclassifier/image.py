@@ -1,11 +1,37 @@
-from typing import Any
+from io import BytesIO
 
 import numpy as np
 from PIL import Image
+import requests
 import torch
 from torch import Tensor
 
-def process_image(image_file: Any) -> Tensor:
+def get_image(location: str) -> Image.Image:
+    """Loads an image from a URL or file path.
+
+    Fetches an image from the web if "location" is a URL or loads the image from
+    the file if "location" is a local file path. Additionally, converts "RGBA"
+    images to "RGB".
+
+    Args:
+        location: The URL or local file path of an image.
+
+    Returns:
+        A PIL Image object representing the loaded image.
+    """
+    if location.startswith("http://") or location.startswith("https://"):
+        response = requests.get(location)
+        image_file = BytesIO(response.content)
+        image = Image.open(image_file)
+    else:
+        image = Image.open(location)
+    
+    if image.mode == "RGBA":
+        image = image.convert("RGB")
+    
+    return image
+
+def process_image(image: Image.Image) -> Tensor:
     """Processes an image for prediction.
 
     Resizes and crops an image and converts the image to a Tensor that can be
@@ -17,10 +43,6 @@ def process_image(image_file: Any) -> Tensor:
     Returns:
         A Tensor that can be used with the model for predictions.
     """
-    image = Image.open(image_file)
-    if image.mode == "RGBA":
-        image = image.convert("RGB")
-    
     width, height = image.size
 
     if width < height:

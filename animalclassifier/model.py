@@ -1,8 +1,11 @@
+from PIL.Image import Image
 import torch
 from torch import nn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 from torchvision import models
+
+from animalclassifier.image import process_image
 
 def get_model(num_labels: int) -> models.DenseNet:
     """Returns a configured DenseNet model.
@@ -63,7 +66,7 @@ def train_model(
             loss.backward()
             optimizer.step()
 
-def predict(model: models.DenseNet, image: torch.Tensor) -> tuple[int, float]:
+def predict(model: models.DenseNet, image: Image) -> tuple[int, float]:
     """Predicts the class and associated probability for an image.
 
     Performs a forward pass through a model using an input image, computes class
@@ -78,10 +81,11 @@ def predict(model: models.DenseNet, image: torch.Tensor) -> tuple[int, float]:
         A tuple (class_index, probability) where class_index is the index of the
         predicted class and probability is the associated probability.
     """
+    image_tensor = process_image(image)
     model.eval()
-    output = model.forward(image)
+    output = model.forward(image_tensor)
     output = torch.exp(output)
-    probabilities, classes = output.topk(1, dim=1)
-    probability = probabilities.item()
-    class_index = classes.item()
+    probability, class_index = output.topk(1, dim=1)
+    probability = probability.item()
+    class_index = class_index.item()
     return (class_index, probability)

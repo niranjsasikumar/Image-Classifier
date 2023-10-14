@@ -1,5 +1,6 @@
 import copy
 
+from PIL import Image
 import pytest
 import torch
 
@@ -38,8 +39,8 @@ class TestModel:
     
     class TestPredict:
         def test_valid_arguments(self):
-            test_model = torch.load("test_data/saved_objects/test_model.pth")
-            image = torch.load("test_data/saved_objects/test_tensor.pth")
+            test_model = torch.load("test_data/models/test_model.pth")
+            image = Image.open("test_data/train/bear/1.jpg")
             animal, probability = model.predict(test_model, image)
             assert animal == 0
             assert probability > 0.5
