@@ -1,5 +1,6 @@
 /datasets
 /test_data
+/models
 
 **/__pycache__
 **/.pytest_cache
