@@ -32,9 +32,7 @@ def get_image(location: str) -> Image.Image:
     else:
         image = Image.open(location)
     
-    if image.mode == "RGBA":
-        image = image.convert("RGB")
-    
+    image = image.convert("RGB")
     return image
 
 def process_image(image: Image.Image) -> Tensor:
