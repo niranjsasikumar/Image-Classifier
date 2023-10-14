@@ -20,9 +20,15 @@ def get_image(location: str) -> Image.Image:
         A PIL Image object representing the loaded image.
     """
     if location.startswith("http://") or location.startswith("https://"):
-        response = requests.get(location)
-        image_file = BytesIO(response.content)
-        image = Image.open(image_file)
+        headers = {
+            "user-agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/117.0.0.0 Safari/537.36"
+            )
+        }
+        response = requests.get(location, headers=headers)
+        image = Image.open(BytesIO(response.content))
     else:
         image = Image.open(location)
     

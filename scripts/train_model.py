@@ -1,7 +1,7 @@
 import torch
 
-from animalclassifier.dataloader import get_data_loader
-from animalclassifier.model import get_model, train_model
+from imageclassifier.dataloader import get_data_loader
+from imageclassifier.model import get_model, train_model
 
 model = get_model(40)
 data_loader = get_data_loader("datasets/train", 10)
