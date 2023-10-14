@@ -6,7 +6,7 @@ from imageclassifier.image import get_image, process_image
 class TestImage:
     class TestGetImage:
         def test_local_image(self):
-            location = "test_data/train/bear/1.jpg"
+            location = "tests/data/train/bear/1.jpg"
             image = get_image(location)
             assert isinstance(image, Image.Image)
         
@@ -19,6 +19,6 @@ class TestImage:
     
     class TestProcessImage:
         def test_valid_image(self):
-            image = Image.open("test_data/train/bear/1.jpg")
+            image = Image.open("tests/data/train/bear/1.jpg")
             image = process_image(image)
             assert type(image) is Tensor

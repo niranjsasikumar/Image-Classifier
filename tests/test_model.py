@@ -27,7 +27,7 @@ class TestModel:
         def test_valid_arguments(self):
             initial_model = model.get_model(2)
             trained_model = copy.deepcopy(initial_model)
-            data_loader = get_data_loader("test_data/train", 10)
+            data_loader = get_data_loader("tests/data/train", 10)
             epochs = 1
             model.train_model(trained_model, data_loader, epochs)
             
@@ -39,8 +39,8 @@ class TestModel:
     
     class TestPredict:
         def test_valid_arguments(self):
-            test_model = torch.load("test_data/models/test_model.pth")
-            image = Image.open("test_data/train/bear/1.jpg")
+            test_model = torch.load("tests/data/models/test_model.pth")
+            image = Image.open("tests/data/train/bear/1.jpg")
             animal, probability = model.predict(test_model, image)
             assert animal == 0
             assert probability > 0.5
