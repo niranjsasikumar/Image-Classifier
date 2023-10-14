@@ -4,8 +4,8 @@ from PIL import Image
 import pytest
 import torch
 
-from animalclassifier import model
-from animalclassifier.dataloader import get_data_loader
+from imageclassifier import model
+from imageclassifier.dataloader import get_data_loader
 
 class TestModel:
     class TestGetModel:

@@ -1,6 +1,6 @@
 from torch.utils.data import DataLoader
 
-from animalclassifier.dataloader import get_data_loader
+from imageclassifier.dataloader import get_data_loader
 
 class TestGetDataLoader:
     def test_valid_arguments(self):

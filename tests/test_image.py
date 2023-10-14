@@ -1,7 +1,7 @@
 from PIL import Image
 from torch import Tensor
 
-from animalclassifier.image import get_image, process_image
+from imageclassifier.image import get_image, process_image
 
 class TestImage:
     class TestGetImage:

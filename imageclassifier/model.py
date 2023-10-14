@@ -5,7 +5,7 @@ from torch.optim import Adam
 from torch.utils.data import DataLoader
 from torchvision import models
 
-from animalclassifier.image import process_image
+from imageclassifier.image import process_image
 
 def get_model(num_labels: int) -> models.DenseNet:
     """Returns a configured DenseNet model.
